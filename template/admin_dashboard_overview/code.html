@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rota Fatsa - Admin Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "primary-dark": "#0d6eb3",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2632",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white transition-colors duration-200">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="hidden md:flex w-72 flex-col justify-between border-r border-slate-200 dark:border-slate-800 bg-surface-light dark:bg-surface-dark transition-colors duration-200">
+<div class="flex flex-col h-full">
+<!-- Logo Section -->
+<div class="p-6 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 p-2 rounded-xl">
+<span class="material-symbols-outlined text-primary text-3xl">travel_explore</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-lg font-bold leading-none tracking-tight">Rota Fatsa</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-1">Admin Portal</p>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 overflow-y-auto px-4 py-6 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary dark:text-primary-400 transition-colors" href="#">
+<span class="material-symbols-outlined fill-1">dashboard</span>
+<span class="text-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">location_on</span>
+<span class="text-sm font-medium">Places</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">alt_route</span>
+<span class="text-sm font-medium">Routes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">event</span>
+<span class="text-sm font-medium">Events</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">group</span>
+<span class="text-sm font-medium">Users</span>
+</a>
+<div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800">
+<p class="px-4 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">System</p>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">help</span>
+<span class="text-sm font-medium">Support</span>
+</a>
+</div>
+</nav>
+<!-- User Profile Footer -->
+<div class="p-4 border-t border-slate-100 dark:border-slate-800">
+<button class="flex items-center gap-3 w-full p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center border-2 border-white dark:border-slate-600 shadow-sm" data-alt="Profile picture of the admin user" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDmQewC2muCU9Ljsgbv3ZtuPS4n_Ep1V1xuq9tGKav9tc7wKhUadhq_EqapG0jUIHgGBFKVj9o_ffbJVtHAsO3vloMk1jzmuxNXBMyx7AoVEyW_l_JsAz7Ya1GUPrK1UKa2KXY0YF96AuDU7ZMyQx6prSN5nU5m0PPaSo89aMXgDjEKudw1GbV2Kux2HI-3A4iVfmWmoss1zd8Cft3VyVE1vqdlosjc2CFqEzEaLro9KrrBTFsqfiY9BoQIEGe9Betbuk8IJP1nAA');"></div>
+<div class="flex flex-col items-start">
+<span class="text-sm font-bold text-slate-900 dark:text-white">Admin User</span>
+<span class="text-xs text-slate-500 dark:text-slate-400">View Profile</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 ml-auto text-lg">expand_more</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative">
+<!-- Header -->
+<header class="h-20 flex items-center justify-between px-8 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md sticky top-0 z-20 border-b border-slate-200/50 dark:border-slate-800/50">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Overview</h2>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search Bar -->
+<div class="hidden sm:flex items-center bg-slate-100 dark:bg-slate-800 rounded-full px-4 py-2 w-64 focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+<span class="material-symbols-outlined text-slate-400 text-xl">search</span>
+<input class="bg-transparent border-none text-sm w-full text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:ring-0" placeholder="Search places, routes..." type="text"/>
+</div>
+<!-- Actions -->
+<button class="p-2 relative text-slate-500 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-4 md:p-8 pb-20">
+<!-- Welcome Section -->
+<div class="mb-8">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Welcome back, Admin! 👋</h1>
+<p class="text-slate-500 dark:text-slate-400">Here's what's happening in Fatsa tourism today.</p>
+</div>
+<!-- Stats Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<!-- Total Visitors Card -->
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">groups</span>
+</div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<span class="flex items-center text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded text-xs font-bold">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+                                +12%
+                            </span>
+</div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">Total Visitors</h3>
+<div class="flex items-end gap-2">
+<p class="text-3xl font-bold text-slate-900 dark:text-white">12,450</p>
+<span class="text-xs text-slate-400 mb-1">this month</span>
+</div>
+<!-- Simple decorative sparkline -->
+<div class="mt-4 h-1 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-3/4 rounded-full"></div>
+</div>
+</div>
+<!-- Active Places Card -->
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-orange-500">map</span>
+</div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="p-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg text-orange-500">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<span class="flex items-center text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded text-xs font-bold">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+                                +5%
+                            </span>
+</div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">Active Places</h3>
+<div class="flex items-end gap-2">
+<p class="text-3xl font-bold text-slate-900 dark:text-white">84</p>
+<span class="text-xs text-slate-400 mb-1">registered spots</span>
+</div>
+<div class="mt-4 flex gap-1">
+<div class="h-1 flex-1 bg-orange-500 rounded-full"></div>
+<div class="h-1 flex-1 bg-orange-300 rounded-full"></div>
+<div class="h-1 flex-1 bg-slate-100 dark:bg-slate-700 rounded-full"></div>
+</div>
+</div>
+<!-- AI Bot Interactions Card -->
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-purple-500">smart_toy</span>
+</div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-500">
+<span class="material-symbols-outlined">chat_bubble</span>
+</div>
+<span class="flex items-center text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded text-xs font-bold">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+                                +8%
+                            </span>
+</div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">AI Interactions</h3>
+<div class="flex items-end gap-2">
+<p class="text-3xl font-bold text-slate-900 dark:text-white">1,203</p>
+<span class="text-xs text-slate-400 mb-1">queries solved</span>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<div class="text-xs text-slate-400">Response Rate</div>
+<div class="flex-1 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-purple-500 w-[92%] rounded-full"></div>
+</div>
+<div class="text-xs font-bold text-purple-600 dark:text-purple-400">92%</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity Section -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Recent Activity</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Latest updates from the platform</p>
+</div>
+<button class="text-sm font-medium text-primary hover:text-primary-dark transition-colors flex items-center gap-1">
+                            View All
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
+<th class="p-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Activity Type</th>
+<th class="p-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Entity Name</th>
+<th class="p-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">User</th>
+<th class="p-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Date</th>
+<th class="p-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-500">
+<span class="material-symbols-outlined text-lg">edit_location</span>
+</div>
+<span class="text-sm font-medium text-slate-900 dark:text-white">Place Updated</span>
+</div>
+</td>
+<td class="p-4 text-sm text-slate-600 dark:text-slate-300 font-medium">Bolaman Castle</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="Avatar of Admin_01" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAt1heOE8OnOmZUqfetJ5wIYEn8Xf6lqGQanCUPb4alPCgic6Bf7otsqBWFf2G9b2IwFfH0gXKgOWbEuSuN8Tisn5nvhVfIwMKQVtZ-aRB3eBWggf2dwyV5G0loJa95rz0j_lkGU9rc4EvLG6wKkH7Ai1AaiHFzjMQvzz-h2BEnpq3lx1uj60-0Q9vZtfW87k3veETVokCzqMRoW4u4qTpNpFuprelfN1pyXEkPO_aBL4Gf8q3CAqQVnAHVQmplc8tgg6uaHwAzNA')"></div>
+<span class="text-sm text-slate-600 dark:text-slate-400">Admin_01</span>
+</div>
+</td>
+<td class="p-4 text-sm text-slate-500 dark:text-slate-400">Today, 10:23 AM</td>
+<td class="p-4 text-right">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
+                                            Published
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 text-yellow-600">
+<span class="material-symbols-outlined text-lg">rate_review</span>
+</div>
+<span class="text-sm font-medium text-slate-900 dark:text-white">New Review</span>
+</div>
+</td>
+<td class="p-4 text-sm text-slate-600 dark:text-slate-300 font-medium">Gaga Lake</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-500">T</div>
+<span class="text-sm text-slate-600 dark:text-slate-400">Tourist_User_99</span>
+</div>
+</td>
+<td class="p-4 text-sm text-slate-500 dark:text-slate-400">Today, 09:15 AM</td>
+<td class="p-4 text-right">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                                            Pending
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-600">
+<span class="material-symbols-outlined text-lg">celebration</span>
+</div>
+<span class="text-sm font-medium text-slate-900 dark:text-white">Event Created</span>
+</div>
+</td>
+<td class="p-4 text-sm text-slate-600 dark:text-slate-300 font-medium">Hazelnut Festival</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="Avatar of Event_Manager" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDms_kMJ2THre42jHJkz1r0oSYViHxX86YoYqiek3wSru31Qd2cC8CA8vewHUdBaZ0c8xoh2ZlmgRj8fzZbLuAYpe8K-634jPSIauUmwzPHefuqAh9RhDwPVcLbQDQRv1kkSIEcplu63DAioBBPWUjPo-94KBGSNusssb8EFRuxKRtMz6_ttZL06vUV4aeSV1c0_RaxMnU6X8K_gRKSZeU4SSo8W0jbiJ8fr8wwxNduGFH1H2FLov7roSW-3uB3BCIDg2yPgw9dLg')"></div>
+<span class="text-sm text-slate-600 dark:text-slate-400">Event_Manager</span>
+</div>
+</td>
+<td class="p-4 text-sm text-slate-500 dark:text-slate-400">Yesterday, 04:30 PM</td>
+<td class="p-4 text-right">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300">
+                                            Draft
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-pink-50 dark:bg-pink-900/20 text-pink-500">
+<span class="material-symbols-outlined text-lg">directions</span>
+</div>
+<span class="text-sm font-medium text-slate-900 dark:text-white">Route Modified</span>
+</div>
+</td>
+<td class="p-4 text-sm text-slate-600 dark:text-slate-300 font-medium">City Center Walk</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="Avatar of Admin_02" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA1zw1vqqW5_EU5TXYSE1axMFk3B9i-lVYHyxQMvVmquue8S3nBvmnM7hHURKAXlZADWESouCzCaGKPvvQW6P2IDPPm_iqKYuRUKKimRc0ZCi2m2S7VQoehbv_LGN-33Z84QMAy7YGgnnne8qhavucABAVZRlr4ITO06WmbkJScj2OPc0gQk7gzqvtPtgt9oyl_wOrDhzkAGWHonS4V_3S0phOAx6zaSgMzrXIn1_BpaOA2d2DcTsYpy3moKQAcv2ga_SRYZtznwA')"></div>
+<span class="text-sm text-slate-600 dark:text-slate-400">Admin_02</span>
+</div>
+</td>
+<td class="p-4 text-sm text-slate-500 dark:text-slate-400">Yesterday, 02:00 PM</td>
+<td class="p-4 text-right">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
+                                            Published
+                                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<span class="text-xs text-slate-500 dark:text-slate-400">Showing 4 of 24 results</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded-md border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Previous</button>
+<button class="px-3 py-1 rounded-md border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Next</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

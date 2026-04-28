@@ -1,0 +1,439 @@
+/* =============================================
+   ROTA FATSA — Apple-Inspired Design System
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  /* Apple Color Palette */
+  --color-black: #1d1d1f;
+  --color-gray-900: #1d1d1f;
+  --color-gray-700: #424245;
+  --color-gray-500: #6e6e73;
+  --color-gray-400: #86868b;
+  --color-gray-300: #d2d2d7;
+  --color-gray-200: #e8e8ed;
+  --color-gray-100: #f5f5f7;
+  --color-white: #fbfbfd;
+
+  /* Brand Accent */
+  --color-blue: #0071e3;
+  --color-blue-hover: #0077ED;
+  --color-blue-light: #e1f0ff;
+  --color-amber: #f59e0b;
+
+  /* Gold Accent System */
+  --gold: #C8A960;
+  --gold-light: #D4BC7A;
+  --gold-dark: #A68B4B;
+  --gold-glow: rgba(200, 169, 96, 0.3);
+  --gradient-gold: linear-gradient(135deg, #C8A960 0%, #E8D5A3 50%, #C8A960 100%);
+
+  /* Semantic */
+  --text-primary: var(--color-gray-900);
+  --text-secondary: var(--color-gray-400);
+  --text-tertiary: var(--color-gray-500);
+  --bg-primary: var(--color-white);
+  --bg-secondary: var(--color-gray-100);
+  --surface: #ffffff;
+
+  /* Layout */
+  --container-width: 1200px;
+  --header-height: 52px;
+
+  /* Effects */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
+
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast: 0.2s var(--ease-out);
+  --transition-smooth: 0.4s var(--ease-out);
+
+  /* Legacy Compatibility */
+  --primary: #2196F3;
+  --primary-light: #e3f2fd;
+  --primary-dark: #1976D2;
+  --secondary: #1d1d1f;
+  --accent: #f59e0b;
+  --background-light: #f8f9fb;
+  --surface-light: #ffffff;
+  --surface-glass: rgba(255, 255, 255, 0.72);
+  --text-main: #1a1a2e;
+  --text-light: #1a1a2e;
+  --text-dark: #ffffff;
+  --text-secondary-light: #4b5563;
+  --text-secondary-dark: #cbd5e1;
+  --background-dark: #1a1a2e;
+  --surface-dark: #1e293b;
+  --gradient-primary: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --gradient-blue: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  --gradient-overlay: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+  --shadow-card: var(--shadow-md);
+  --shadow-soft: var(--shadow-lg);
+  --radius-xl: 1rem;
+  --spacing-lg: 1.5rem;
+}
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Base ── */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Typography ── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+a {
+  color: var(--color-blue);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-blue-hover);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ── Material Icons ── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ── Layout ── */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 max(1.5rem, env(safe-area-inset-left));
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--color-blue);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--color-blue-hover);
+  transform: scale(1.02);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-blue);
+  border: none;
+  padding: 0.75rem 0;
+}
+
+.btn-secondary:hover {
+  text-decoration: underline;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-400);
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(200, 169, 96, 0.25);
+  color: var(--text-primary);
+}
+
+/* ── Animation Keyframes Library ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes blurIn {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes goldPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--gold-glow);
+  }
+
+  50% {
+    box-shadow: 0 0 20px 5px var(--gold-glow);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s var(--ease-out) forwards;
+}
+
+/* ── Scroll Reveal System ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger children */
+.stagger-children>.reveal:nth-child(1) {
+  transition-delay: 0s;
+}
+
+.stagger-children>.reveal:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.stagger-children>.reveal:nth-child(3) {
+  transition-delay: 0.2s;
+}
+
+.stagger-children>.reveal:nth-child(4) {
+  transition-delay: 0.3s;
+}
+
+.stagger-children>.reveal:nth-child(5) {
+  transition-delay: 0.4s;
+}
+
+.stagger-children>.reveal:nth-child(6) {
+  transition-delay: 0.5s;
+}
+
+/* ── Tactile Button Feedback ── */
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* ── Scroll Progress Bar ── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--gradient-gold);
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+/* Page Transitions */
+.route-transition-wrapper {
+    animation: pageFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    width: 100%;
+}
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Page Transitions */
+.route-transition-wrapper {
+    animation: pageFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    width: 100%;
+}
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

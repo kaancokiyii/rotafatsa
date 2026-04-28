@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rota Fatsa - Places Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white transition-colors duration-200">
+<div class="min-h-screen flex flex-col md:flex-row">
+<!-- Sidebar Navigation -->
+<aside class="w-full md:w-64 bg-white dark:bg-[#15202b] border-r border-slate-200 dark:border-slate-800 flex-shrink-0 hidden md:flex flex-col">
+<div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2 text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-primary text-3xl">travel_explore</span>
+<span class="text-lg font-bold tracking-tight">Rota Fatsa</span>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:text-primary transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] fill-1">map</span>
+<span class="text-sm font-bold">Places</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">event</span>
+<span class="text-sm font-medium">Events</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">reviews</span>
+<span class="text-sm font-medium">Reviews</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">group</span>
+<span class="text-sm font-medium">Users</span>
+</a>
+<div class="pt-4 mt-4 border-t border-slate-200 dark:border-slate-800">
+<p class="px-3 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">System</p>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<img alt="Admin Profile" class="w-9 h-9 rounded-full border border-slate-200 dark:border-slate-700" data-alt="Profile picture of the admin user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3ipb-J0XU676oB0Dp-X_stBbz-i3o_qtapPmWdNlsIUhBr-FwzNU_mrpQLCPlhxPSoh3yZEgsSoBO6l6cDbLJmtY4x8Htz20QJpPSpr3leFSVSYx5z0bzjZYlcudryDXFeloAePIj0ojSXc2vBJOLcWmxurxxLKYdkiOTDm_3iAOgDalFmNlIN0VZZUxQp2tKiuhrTi4gp6g71XYYoYHSAEDyuKQh5uPznv1QI7UWlUjiopfKHh1JD2pbLGs4NrHZ3KeC43EWYw"/>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-slate-900 dark:text-white">Admin User</span>
+<span class="text-xs text-slate-500 dark:text-slate-400">Municipality Staff</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- Mobile Header -->
+<header class="md:hidden flex items-center justify-between p-4 bg-white dark:bg-[#15202b] border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl">travel_explore</span>
+<span class="font-bold text-slate-900 dark:text-white">Rota Fatsa</span>
+</div>
+<button class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<div class="flex-1 overflow-y-auto bg-slate-50/50 dark:bg-background-dark p-4 md:p-8">
+<div class="max-w-7xl mx-auto space-y-6">
+<!-- Breadcrumbs & Header -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-1">
+<a class="hover:text-primary transition-colors" href="#">Dashboard</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-slate-900 dark:text-white font-medium">Places Management</span>
+</div>
+<h1 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Places Management</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Manage and update tourist locations for the Rota Fatsa application.</p>
+</div>
+<button class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-blue-600 text-white px-5 py-2.5 rounded-lg font-semibold shadow-sm shadow-blue-500/30 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Add New Place</span>
+</button>
+</div>
+<!-- Metrics Overview (Optional but good for dashboards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-white dark:bg-[#15202b] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Places</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white">42</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#15202b] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Active</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white">38</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#15202b] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400">
+<span class="material-symbols-outlined">edit_document</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Drafts</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white">3</p>
+</div>
+</div>
+<div class="bg-white dark:bg-[#15202b] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined">category</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Categories</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white">8</p>
+</div>
+</div>
+</div>
+<!-- Filters & Search -->
+<div class="bg-white dark:bg-[#15202b] p-4 rounded-t-xl border border-slate-200 dark:border-slate-800 border-b-0 flex flex-col md:flex-row gap-4 items-center justify-between">
+<div class="relative w-full md:w-96">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg leading-5 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-shadow" placeholder="Search places by name or description..." type="text"/>
+</div>
+<div class="flex gap-3 w-full md:w-auto">
+<div class="relative w-full md:w-48">
+<select class="block w-full pl-3 pr-10 py-2.5 text-base border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-white dark:bg-[#15202b] text-slate-700 dark:text-slate-300">
+<option>All Categories</option>
+<option>Nature</option>
+<option>Historical</option>
+<option>Beach</option>
+<option>Religious</option>
+</select>
+</div>
+<div class="relative w-full md:w-40">
+<select class="block w-full pl-3 pr-10 py-2.5 text-base border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-white dark:bg-[#15202b] text-slate-700 dark:text-slate-300">
+<option>All Status</option>
+<option>Active</option>
+<option>Draft</option>
+<option>Maintenance</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-white dark:bg-[#15202b] border border-slate-200 dark:border-slate-800 rounded-b-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-slate-200 dark:divide-slate-800">
+<thead class="bg-slate-50 dark:bg-slate-800/50">
+<tr>
+<th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Place</th>
+<th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Category</th>
+<th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Location</th>
+<th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Status</th>
+<th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Last Updated</th>
+<th class="relative px-6 py-3" scope="col">
+<span class="sr-only">Actions</span>
+</th>
+</tr>
+</thead>
+<tbody class="bg-white dark:bg-[#15202b] divide-y divide-slate-200 dark:divide-slate-800">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden bg-slate-200 relative">
+<img alt="Lake Gaga" class="h-12 w-12 object-cover" data-alt="Serene lake view with greenery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9dwzbjWEK93F6Aha_VnoRrpxfMqOfaLcN4BVg92ApU-FHy_-cmJfRoF0F66TWsqkMqyWfO5Qb6DOcAvx9loMjrdDYI0D_CyGuS3B-OZ0yCVx6tNqs6MLaH8emRNbvb_Yde83oeF3mlbQAwdQbqX107tEIevzaWM3AsOoDpd0eaPdY_3z1wpsx_v2P6XeABGOt3Gjr8CnELbZKzS3o62F5Z6x2zRtymPB4e42s7IvkIHclyr2JtYAPgWOZC0c8wDwAAsP9FksSLA"/>
+</div>
+<div class="ml-4">
+<div class="text-sm font-bold text-slate-900 dark:text-white">Gaga Lake</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">Natural Wonder</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+                                                Nature
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                                41.025° N, 37.512° E
+                                            </div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                                Active
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+                                            Oct 24, 2023
+                                        </td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<div class="flex items-center justify-end gap-2">
+<button class="text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="text-slate-400 hover:text-red-500 dark:text-slate-500 dark:hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden bg-slate-200 relative">
+<img alt="Yalıköy Beach" class="h-12 w-12 object-cover" data-alt="Sunny sandy beach with blue waves" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi1zwyXpqiKebyGxH1aJ8X2VqYazGa8Lj0nwQww4zXXSWXx3cq20vwkjvVmcN6OkfCGnU8H5ZWpzhkF2SR_tmgkqdfgtYXbrlS3OVoUg2g6KZsjCOitlSSTl0VCSB4N5Viojqg1IlOPhe5VNHlXHgFidqSY_mfRpZL3tCuomL0s4WPuRY4b3FSZ0duWJq3AaZtN0h_S1gKaymT79fsqFW09ocR-4zLjGbNCBsjdVaOCaaP9sKKe3Me8TAvqdhipKCR0ZpdSHpmfw"/>
+</div>
+<div class="ml-4">
+<div class="text-sm font-bold text-slate-900 dark:text-white">Yalıköy Beach</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">Public Beach</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                                                Beach
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                                41.050° N, 37.480° E
+                                            </div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                                Active
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+                                            Oct 22, 2023
+                                        </td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<div class="flex items-center justify-end gap-2">
+<button class="text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="text-slate-400 hover:text-red-500 dark:text-slate-500 dark:hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden bg-slate-200 relative">
+<img alt="Bolaman Castle" class="h-12 w-12 object-cover" data-alt="Old stone castle wall detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9C9wlDX7CbZloR1uQkYCCWgzOC4aqY6RIGwKyIEg6Ai4-km7RJCg0g0H0bmX-X0bhflz4fI6FWk1VkmiWS0qWhynHWtdpcOyKY4Ya-_ZGP71zIE5qoqjDmdwI8enTH8Td5jru9Cnd_eZhhUpRlJsPvqMHRqMlHFMI81g1vZLsg9tmOoPeZcGyu_tUfX5rtHx91HpljGTPkxFKA884iXn4Q2gUrtdekTuxrMdEGMOt1wjmjKy2UQN27YWJ0XIMhtKLAa85sTH7mA"/>
+</div>
+<div class="ml-4">
+<div class="text-sm font-bold text-slate-900 dark:text-white">Bolaman Castle</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">Historical Site</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
+                                                Historical
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                                41.012° N, 37.550° E
+                                            </div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 dark:bg-slate-700/50 dark:text-slate-300 border border-slate-200 dark:border-slate-600">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+                                                Draft
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+                                            Oct 20, 2023
+                                        </td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<div class="flex items-center justify-end gap-2">
+<button class="text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="text-slate-400 hover:text-red-500 dark:text-slate-500 dark:hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden bg-slate-200 relative">
+<img alt="Cıngırt Rock" class="h-12 w-12 object-cover" data-alt="Rocky cliff overlooking greenery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdsByt1cvWOoxQWZDZtJamQgor-Y479wTk3X32AyKhCE7jhsY0iQn4EyFDOS7_dYEyzCcrk1ofIbilQvsQa_6w18yVdQKjVtuJLRrppb9VGbdeTECJkNldlTjBh6-lFlVM6vsZa6EIb73pO5fUy6QbxVblA9X4kd0_6Onxo1TK_p0jaEQWIkDhktr3S_2Si0pj13FxuXcA1M7Qeabe15WEIh_sqmIorQbd_hk3dMHiyoFyYyNdaAqhEDcDxulQ-PCXBG-sUtGNwg"/>
+</div>
+<div class="ml-4">
+<div class="text-sm font-bold text-slate-900 dark:text-white">Cıngırt Rock</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">Ancient Settlement</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
+                                                Historical
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                                40.985° N, 37.490° E
+                                            </div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-50 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400 border border-orange-100 dark:border-orange-800">
+<span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                                                Maintenance
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+                                            Oct 15, 2023
+                                        </td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<div class="flex items-center justify-end gap-2">
+<button class="text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="text-slate-400 hover:text-red-500 dark:text-slate-500 dark:hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-white dark:bg-[#15202b] px-4 py-3 flex items-center justify-between border-t border-slate-200 dark:border-slate-800 sm:px-6">
+<div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+<div>
+<p class="text-sm text-slate-700 dark:text-slate-400">
+                                        Showing
+                                        <span class="font-medium text-slate-900 dark:text-white">1</span>
+                                        to
+                                        <span class="font-medium text-slate-900 dark:text-white">4</span>
+                                        of
+                                        <span class="font-medium text-slate-900 dark:text-white">42</span>
+                                        results
+                                    </p>
+</div>
+<div>
+<nav aria-label="Pagination" class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+<a class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700" href="#">
+<span class="sr-only">Previous</span>
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</a>
+<a aria-current="page" class="z-10 bg-primary/10 border-primary text-primary relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#">
+                                            1
+                                        </a>
+<a class="bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#">
+                                            2
+                                        </a>
+<a class="bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium" href="#">
+                                            3
+                                        </a>
+<span class="relative inline-flex items-center px-4 py-2 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-400">
+                                            ...
+                                        </span>
+<a class="bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#">
+                                            8
+                                        </a>
+<a class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700" href="#">
+<span class="sr-only">Next</span>
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Side Panel / Add New Place Form (Simulating an open drawer state) -->
+<aside class="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-white dark:bg-[#15202b] shadow-2xl border-l border-slate-200 dark:border-slate-800 transform transition-transform duration-300 overflow-y-auto hidden lg:flex flex-col z-50">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between sticky top-0 bg-white dark:bg-[#15202b] z-10">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Add New Place</h2>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 space-y-6">
+<!-- Image Upload -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Cover Image</label>
+<div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 dark:border-slate-700 border-dashed rounded-lg hover:border-primary dark:hover:border-primary transition-colors cursor-pointer bg-slate-50 dark:bg-slate-800/50">
+<div class="space-y-1 text-center">
+<span class="material-symbols-outlined text-4xl text-slate-400">image</span>
+<div class="flex text-sm text-slate-600 dark:text-slate-400">
+<label class="relative cursor-pointer bg-transparent rounded-md font-medium text-primary hover:text-blue-500 focus-within:outline-none" for="file-upload">
+<span>Upload a file</span>
+<input class="sr-only" id="file-upload" name="file-upload" type="file"/>
+</label>
+<p class="pl-1">or drag and drop</p>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-500">PNG, JPG, GIF up to 10MB</p>
+</div>
+</div>
+</div>
+<!-- Form Fields -->
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="title">Place Title</label>
+<input class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2.5" id="title" name="title" placeholder="e.g. Fatsa City Center" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="category">Category</label>
+<select class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2.5" id="category" name="category">
+<option>Select a category...</option>
+<option>Nature</option>
+<option>Historical</option>
+<option>Beach</option>
+<option>Religious</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="description">Description</label>
+<div class="mt-1">
+<textarea class="block w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2.5" id="description" name="description" placeholder="Brief description of the place..." rows="4"></textarea>
+</div>
+<p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Brief description for the app listing.</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="lat">Latitude</label>
+<input class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2.5" id="lat" name="lat" placeholder="41.000" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="lng">Longitude</label>
+<input class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2.5" id="lng" name="lng" placeholder="37.500" type="text"/>
+</div>
+</div>
+<!-- Map Picker Placeholder -->
+<div class="relative h-32 w-full bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 flex items-center justify-center group cursor-pointer">
+<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80')] bg-cover opacity-50 dark:opacity-30" data-location="Fatsa" style=""></div>
+<div class="relative z-10 flex items-center gap-2 bg-white/90 dark:bg-black/70 px-3 py-1.5 rounded-full shadow-sm text-sm font-medium text-slate-900 dark:text-white group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">add_location_alt</span>
+                            Pick on Map
+                        </div>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex items-center h-5">
+<input checked="" class="h-4 w-4 rounded border-slate-300 dark:border-slate-700 text-primary focus:ring-primary bg-white dark:bg-slate-800" id="status" name="status" type="checkbox"/>
+</div>
+<div class="ml-2 text-sm">
+<label class="font-medium text-slate-700 dark:text-slate-300" for="status">Publish immediately</label>
+<p class="text-slate-500 dark:text-slate-400">If unchecked, the place will be saved as draft.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 mt-auto flex items-center justify-end gap-3 sticky bottom-0">
+<button class="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="button">
+                    Cancel
+                </button>
+<button class="px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="submit">
+                    Save Place
+                </button>
+</div>
+</aside>
+</div>
+</body></html>

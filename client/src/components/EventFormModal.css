@@ -1,0 +1,7 @@
+/* EventFormModal — shares all styles from PlaceFormModal.css */
+/* Import is handled by PlaceFormModal.css being loaded via PlaceFormModal.jsx */
+/* This file only contains event-specific overrides if needed */
+
+.adm-img-single {
+    margin-top: 0.5rem;
+}

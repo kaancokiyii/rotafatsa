@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rota Fatsa Homepage</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1392ec",
+              "primary-dark": "#0e7ac4",
+              "secondary": "#10b981", 
+              "background-light": "#f6f7f8",
+              "background-dark": "#101a22",
+              "surface-light": "#ffffff",
+              "surface-dark": "#1e2936",
+              "text-light": "#0d161b",
+              "text-dark": "#e2e8f0",
+              "text-secondary-light": "#4c799a",
+              "text-secondary-dark": "#94a3b8",
+            },
+            fontFamily: {
+              "display": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+            boxShadow: {
+                'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                'card': '0 0 4px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.05)',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        /* Glassmorphism for Navbar */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .dark .glass-nav {
+            background: rgba(16, 26, 34, 0.85);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark min-h-screen flex flex-col transition-colors duration-200">
+<!-- Sticky Navbar -->
+<nav class="fixed top-0 w-full z-50 border-b border-gray-200 dark:border-gray-800 glass-nav transition-colors duration-200">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-20">
+<!-- Logo Area -->
+<div class="flex items-center gap-3 cursor-pointer">
+<div class="bg-primary/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary text-3xl">sailing</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-text-light dark:text-white leading-none">Rota Fatsa</h1>
+<span class="text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark tracking-wide">MUNICIPALITY</span>
+</div>
+</div>
+<!-- Desktop Navigation -->
+<div class="hidden md:flex items-center gap-8">
+<a class="text-sm font-semibold text-primary dark:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">Destinations</a>
+<a class="text-sm font-medium text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">Events</a>
+<a class="text-sm font-medium text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<!-- Right Actions -->
+<div class="hidden md:flex items-center gap-6">
+<!-- Language Switcher -->
+<div class="flex items-center gap-2 text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark">
+<span class="text-text-light dark:text-white cursor-pointer hover:text-primary">TR</span>
+<span class="w-px h-3 bg-gray-300 dark:bg-gray-600"></span>
+<span class="cursor-pointer hover:text-primary">EN</span>
+<span class="w-px h-3 bg-gray-300 dark:bg-gray-600"></span>
+<span class="cursor-pointer hover:text-primary">AR</span>
+</div>
+<!-- Login Button -->
+<button class="bg-primary hover:bg-primary-dark text-white text-sm font-bold py-2.5 px-6 rounded-full transition-colors duration-200 shadow-lg shadow-primary/30 flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+                        Login
+                    </button>
+</div>
+<!-- Mobile Menu Button -->
+<button class="md:hidden p-2 text-text-light dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow pt-20">
+<!-- Hero Section -->
+<section class="relative w-full h-[600px] flex items-center justify-center overflow-hidden">
+<!-- Background Image with Overlay -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-background-light dark:to-background-dark z-10"></div>
+<div class="w-full h-full bg-cover bg-center" data-alt="Breathtaking view of Black Sea coastline and green mountains" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAl3bfrQRQ2rhPmwLu20Tdk71pdyny57njg5-TyFCHLkZFs35sDK4nWwQgxvpBJYax4Q1L8H9STMA0-18P2wHip2-WH36x7DQS7xC_K-RlpCUfok-KBCwzKxavNmBwhNXr6tiKw1jiHkc6Dat3RfIY00hs7DPHxwV5KZli5ZZRMVfZQYRxHJZ-wdvoaxN6NnCwuV3CFCLGXNY2M-6R3OYeT75ABs5cYOiwiT_BHEOwgpiQIMYsBKDmrm1rnFdYDQJF2Bl1VQNqcDA');">
+</div>
+</div>
+<!-- Hero Content -->
+<div class="relative z-20 container mx-auto px-4 flex flex-col items-center text-center gap-6 mt-10">
+<span class="inline-block py-1 px-3 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold tracking-wider uppercase mb-2">
+                    Official Tourism Guide
+                </span>
+<h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight drop-shadow-sm max-w-4xl leading-tight">
+                    Discover the Hidden Gem of the <span class="text-sky-300">Black Sea</span>
+</h1>
+<p class="text-lg md:text-xl text-gray-100 max-w-2xl font-medium drop-shadow-md">
+                    Experience pristine nature, rich history, and vibrant culture in Fatsa.
+                </p>
+<!-- Search Bar -->
+<div class="w-full max-w-4xl mt-8 p-2 bg-white dark:bg-surface-dark rounded-2xl shadow-xl flex flex-col md:flex-row gap-2">
+<div class="flex-1 flex items-center px-4 py-3 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700">
+<span class="material-symbols-outlined text-primary text-2xl mr-3">search</span>
+<div class="flex flex-col items-start w-full">
+<label class="text-xs font-bold text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wide">Where to?</label>
+<input class="w-full bg-transparent border-none p-0 text-text-light dark:text-white placeholder-gray-400 focus:ring-0 text-base font-medium" placeholder="Search destinations, restaurants..." type="text"/>
+</div>
+</div>
+<div class="flex-1 flex items-center px-4 py-3 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700">
+<span class="material-symbols-outlined text-primary text-2xl mr-3">calendar_month</span>
+<div class="flex flex-col items-start w-full">
+<label class="text-xs font-bold text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wide">When?</label>
+<input class="w-full bg-transparent border-none p-0 text-text-light dark:text-white placeholder-gray-400 focus:ring-0 text-base font-medium" placeholder="Add dates" type="text"/>
+</div>
+</div>
+<button class="bg-primary hover:bg-primary-dark text-white font-bold rounded-xl px-8 py-4 md:py-0 transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">explore</span>
+<span>Search</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Top Destinations Section -->
+<section class="py-20 px-4 md:px-8 max-w-[1280px] mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+<div>
+<h2 class="text-3xl md:text-4xl font-bold text-text-light dark:text-white tracking-tight mb-2">Top Destinations</h2>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-lg">Curated spots you can't miss in Fatsa.</p>
+</div>
+<a class="flex items-center gap-1 text-primary font-bold hover:text-primary-dark transition-colors" href="#">
+                    View all places
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1: Bolaman Castle -->
+<div class="group bg-surface-light dark:bg-surface-dark rounded-2xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 border border-gray-100 dark:border-gray-700/50 flex flex-col h-full">
+<div class="relative aspect-[4/3] overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Historic Bolaman Castle structure on the coast" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAzMwv6u0sDmrDaqpeGzZGkatFFjr4_0by89J3tcjnQ06jY-Y6s0pe57GBpYQAMSc1WU4-0uR1H76i9HaOBBugE7uFck_L-_6o8fsTf6mKkafXEGCHxufc03WpgGV5oWy8oUJEbGLY0oSNQbHVjUfxEanoJVHWmgmF6c_PLqMl3oPh3LAid3x9ewoEkhVyZ4xUZilXajnk5XqZtJ3b7YLAtJlUfh4APq1s6fctK10yn0GG-op4-ZPQtPoF1xkPl6nmF3HcAKxa05Q');"></div>
+<div class="absolute top-4 left-4 bg-white/90 dark:bg-black/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-text-light dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-amber-500">history_edu</span>
+                            History
+                        </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-bold text-text-light dark:text-white group-hover:text-primary transition-colors">Bolaman Castle</h3>
+<div class="flex items-center gap-1 text-yellow-400">
+<span class="material-symbols-outlined text-sm fill-current">star</span>
+<span class="text-sm font-bold text-text-light dark:text-white">4.8</span>
+</div>
+</div>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm leading-relaxed mb-6 flex-grow">
+                            A historic castle overlooking the sea, featuring a traditional Ottoman mansion inside used as a museum.
+                        </p>
+<button class="w-full mt-auto py-2.5 px-4 rounded-lg bg-primary/10 hover:bg-primary text-primary hover:text-white font-semibold transition-all duration-200 text-sm flex items-center justify-center gap-2">
+                            View Details
+                        </button>
+</div>
+</div>
+<!-- Card 2: Gaga Lake -->
+<div class="group bg-surface-light dark:bg-surface-dark rounded-2xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 border border-gray-100 dark:border-gray-700/50 flex flex-col h-full">
+<div class="relative aspect-[4/3] overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Serene Gaga Lake surrounded by lush green forest" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBr-Aq1_argi6DkGTZrvw1tEFDi-lme5GVDA_WNhYPsp-emerV6BSy2L6n0GmmxclFl-HALq-pOhaeA8wuBCqnC2lb0ib9NuoyKG8qen06l-wiELZiRJtwVPCsFe-2MxN08A_jMttDfuEm0tgDo1ESkilc7VLDqchixiLoU_UEUg8ie829G4HCJF2BF8RTY3tMWpm4K5XQLLEqNBMSKLxi7CFRcb362FSH96HDOFUR818eGlgqYMKCkLkLvdP2dEQX6dpSJKmVKxQ');"></div>
+<div class="absolute top-4 left-4 bg-white/90 dark:bg-black/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-text-light dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-secondary">forest</span>
+                            Nature
+                        </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-bold text-text-light dark:text-white group-hover:text-primary transition-colors">Gaga Lake</h3>
+<div class="flex items-center gap-1 text-yellow-400">
+<span class="material-symbols-outlined text-sm fill-current">star</span>
+<span class="text-sm font-bold text-text-light dark:text-white">4.9</span>
+</div>
+</div>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm leading-relaxed mb-6 flex-grow">
+                            A serene natural wonder perfect for picnics and nature walks, surrounded by lush greenery and bird species.
+                        </p>
+<button class="w-full mt-auto py-2.5 px-4 rounded-lg bg-primary/10 hover:bg-primary text-primary hover:text-white font-semibold transition-all duration-200 text-sm flex items-center justify-center gap-2">
+                            View Details
+                        </button>
+</div>
+</div>
+<!-- Card 3: Cıngırt Rock -->
+<div class="group bg-surface-light dark:bg-surface-dark rounded-2xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 border border-gray-100 dark:border-gray-700/50 flex flex-col h-full">
+<div class="relative aspect-[4/3] overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="View from Cıngırt Rock overlooking the valley" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPJP1uO-80qfEkqMC90C7Jiix_nlv2lI2NHtYXMw-gHhWBAVtGemPVeXuUOZps-6sVs90rCx6QYH0OoZcZK3zBV_4fNnIRUjUwFXljZS5t7VDTp7v1Px3X5VX7DOENY4A5Da3LNZ9udBQQPqYTvQ9wPYRPbgfy_fIgJur6GoHmyTRHlBBMhCzozntbdEY2OO-KUXQ6ZMuT2UQlsawrmhtuHsFAYGPdvhuNkDXQLZj3TgMf7ce5-ZHa5bmpOiyJa-OQjhJ_gNhzhw');"></div>
+<div class="absolute top-4 left-4 bg-white/90 dark:bg-black/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-text-light dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-purple-500">hiking</span>
+                            Adventure
+                        </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-bold text-text-light dark:text-white group-hover:text-primary transition-colors">Cıngırt Rock</h3>
+<div class="flex items-center gap-1 text-yellow-400">
+<span class="material-symbols-outlined text-sm fill-current">star</span>
+<span class="text-sm font-bold text-text-light dark:text-white">4.7</span>
+</div>
+</div>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm leading-relaxed mb-6 flex-grow">
+                            Ancient rock tombs and tunnels offering breathtaking panoramic views of the Fatsa valley for hikers.
+                        </p>
+<button class="w-full mt-auto py-2.5 px-4 rounded-lg bg-primary/10 hover:bg-primary text-primary hover:text-white font-semibold transition-all duration-200 text-sm flex items-center justify-center gap-2">
+                            View Details
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Events Teaser (Extra Section for Completeness) -->
+<section class="py-16 bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800">
+<div class="max-w-[1280px] mx-auto px-4 md:px-8">
+<div class="flex items-center gap-2 mb-8">
+<span class="w-1 h-8 bg-primary rounded-full"></span>
+<h2 class="text-2xl font-bold text-text-light dark:text-white">Upcoming Events</h2>
+</div>
+<div class="flex flex-col md:flex-row gap-6">
+<div class="flex-1 bg-background-light dark:bg-background-dark p-4 rounded-xl flex gap-4 items-center border border-gray-200 dark:border-gray-700">
+<div class="w-16 h-16 bg-primary/10 rounded-lg flex flex-col items-center justify-center text-primary font-bold shrink-0">
+<span class="text-xs uppercase">Jul</span>
+<span class="text-2xl">12</span>
+</div>
+<div>
+<h4 class="font-bold text-text-light dark:text-white text-lg">Hazelnut Festival</h4>
+<p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">City Center Park • 10:00 AM</p>
+</div>
+</div>
+<div class="flex-1 bg-background-light dark:bg-background-dark p-4 rounded-xl flex gap-4 items-center border border-gray-200 dark:border-gray-700">
+<div class="w-16 h-16 bg-primary/10 rounded-lg flex flex-col items-center justify-center text-primary font-bold shrink-0">
+<span class="text-xs uppercase">Aug</span>
+<span class="text-2xl">05</span>
+</div>
+<div>
+<h4 class="font-bold text-text-light dark:text-white text-lg">Coastal Jazz Night</h4>
+<p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Fatsa Pier • 08:00 PM</p>
+</div>
+</div>
+<div class="flex-1 bg-background-light dark:bg-background-dark p-4 rounded-xl flex gap-4 items-center border border-gray-200 dark:border-gray-700">
+<div class="w-16 h-16 bg-primary/10 rounded-lg flex flex-col items-center justify-center text-primary font-bold shrink-0">
+<span class="text-xs uppercase">Aug</span>
+<span class="text-2xl">18</span>
+</div>
+<div>
+<h4 class="font-bold text-text-light dark:text-white text-lg">Traditional Cuisine Fair</h4>
+<p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Municipality Square • 11:00 AM</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-800 pt-16 pb-8">
+<div class="max-w-[1280px] mx-auto px-4 md:px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">sailing</span>
+<h2 class="text-xl font-bold text-text-light dark:text-white">Rota Fatsa</h2>
+</div>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm mb-6">
+                        Your official guide to discovering the beauty, culture, and history of Fatsa Municipality.
+                    </p>
+<div class="flex gap-4">
+<a class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-text-secondary-light dark:text-text-secondary-dark hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="text-xs font-bold">IG</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-text-secondary-light dark:text-text-secondary-dark hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="text-xs font-bold">TW</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-text-secondary-light dark:text-text-secondary-dark hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="text-xs font-bold">FB</span>
+</a>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-text-light dark:text-white mb-4">Discover</h3>
+<ul class="space-y-3 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+<li><a class="hover:text-primary transition-colors" href="#">Destinations</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Restaurants</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Hotels</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Tours</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-text-light dark:text-white mb-4">Municipality</h3>
+<ul class="space-y-3 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+<li><a class="hover:text-primary transition-colors" href="#">About Fatsa</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Mayor</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">News &amp; Announcements</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Projects</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-text-light dark:text-white mb-4">Contact</h3>
+<ul class="space-y-3 text-sm text-text-secondary-light dark:text-text-secondary-dark">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base">call</span>
+                            +90 452 400 00 00
+                        </li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base">mail</span>
+                            info@fatsa.bel.tr
+                        </li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base">location_on</span>
+                            Fatsa Municipality, Ordu, Turkey
+                        </li>
+</ul>
+</div>
+</div>
+<div class="border-t border-gray-200 dark:border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">
+                    © 2024 Fatsa Municipality. All rights reserved.
+                </p>
+<div class="flex gap-6 text-xs text-text-secondary-light dark:text-text-secondary-dark">
+<a class="hover:text-text-light dark:hover:text-white" href="#">Privacy Policy</a>
+<a class="hover:text-text-light dark:hover:text-white" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- RotaBot Floating Action Button -->
+<div class="fixed bottom-6 right-6 z-40 group">
+<!-- Tooltip -->
+<div class="absolute bottom-full right-0 mb-3 w-48 bg-white dark:bg-surface-dark p-3 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-200 pointer-events-none">
+<p class="text-sm text-text-light dark:text-white font-medium">Need help planning your trip?</p>
+<div class="absolute bottom-[-6px] right-6 w-3 h-3 bg-white dark:bg-surface-dark border-r border-b border-gray-100 dark:border-gray-700 transform rotate-45"></div>
+</div>
+<!-- Button -->
+<button class="w-14 h-14 bg-primary hover:bg-primary-dark text-white rounded-full shadow-lg shadow-primary/40 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95">
+<span class="material-symbols-outlined text-3xl">smart_toy</span>
+</button>
+</div>
+</body></html>

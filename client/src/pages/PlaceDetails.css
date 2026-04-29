@@ -339,15 +339,15 @@
    ═══════════════════════════════════════════════ */
 .lightbox {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.95);
     z-index: 9999;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     animation: lightbox-fade 0.25s ease;
-    padding: 4rem 1rem 1rem;
 }
 
 @keyframes lightbox-fade {
@@ -357,8 +357,8 @@
 
 .lightbox__close {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 1.5rem;
+    right: 1.5rem;
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -370,7 +370,7 @@
     align-items: center;
     justify-content: center;
     transition: background 0.2s;
-    z-index: 10;
+    z-index: 20;
 }
 
 .lightbox__close:hover {
@@ -389,7 +389,7 @@
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
     font-weight: 600;
-    z-index: 10;
+    z-index: 20;
 }
 
 .lightbox__content {
@@ -398,9 +398,9 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 90vw;
     flex: 1;
-    min-height: 0;
+    min-height: 0; /* Critical for flex child */
+    padding: 80px 20px 20px 20px; /* Space for close button at top */
 }
 
 .lightbox__image {
@@ -409,8 +409,7 @@
     object-fit: contain;
     border-radius: 8px;
     animation: lightbox-img-in 0.3s ease;
-    display: block;
-    margin: auto;
+    user-select: none;
 }
 
 @keyframes lightbox-img-in {
@@ -433,7 +432,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
-    z-index: 10;
+    z-index: 20;
 }
 
 .lightbox__nav:hover {
@@ -446,26 +445,28 @@
 }
 
 .lightbox__nav--prev {
-    left: 1rem;
+    left: 20px;
 }
 
 .lightbox__nav--next {
-    right: 1rem;
+    right: 20px;
 }
 
 .lightbox__thumbs {
     display: flex;
     gap: 8px;
-    padding: 1rem 0 0.5rem;
-    max-width: 90vw;
+    padding: 0 1rem 1.5rem;
+    width: 100%;
     overflow-x: auto;
     justify-content: center;
     flex-shrink: 0;
+    height: 90px;
+    align-items: center;
 }
 
 .lightbox__thumb {
-    width: 56px;
-    height: 56px;
+    width: 60px;
+    height: 60px;
     border-radius: 8px;
     overflow: hidden;
     border: 2px solid transparent;

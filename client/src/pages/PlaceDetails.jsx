@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -330,7 +331,7 @@ function PlaceDetails() {
             </div>
 
             {/* Lightbox Modal */}
-            {showLightbox && place?.images?.length > 0 && (
+            {showLightbox && place?.images?.length > 0 && createPortal(
                 <div className="lightbox" onClick={closeLightbox}>
                     <button className="lightbox__close" onClick={closeLightbox}>
                         <span className="material-symbols-outlined">close</span>
@@ -366,7 +367,8 @@ function PlaceDetails() {
                             </button>
                         ))}
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             <Footer />

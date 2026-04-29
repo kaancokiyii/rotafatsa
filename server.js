@@ -13,6 +13,7 @@ const routeRoutes = require('./routes/routes');
 const eventRoutes = require('./routes/events');
 const chatRoutes = require('./routes/chat');
 const contactRoutes = require('./routes/contact');
+const settingsRoutes = require('./routes/settings');
 
 // Initialize Express app
 const app = express();
@@ -41,6 +42,7 @@ app.use('/api/routes', routeRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

@@ -20,7 +20,7 @@ router.get('/:id', getEventById);
 router.post(
     '/',
     protect,
-    upload.single('image'), // Single image upload
+    upload('image', 1), // Single image upload
     validate(eventSchema),
     createEvent
 );
@@ -28,7 +28,7 @@ router.post(
 router.put(
     '/:id',
     protect,
-    upload.single('image'),
+    upload('image', 1),
     validate(eventSchema),
     updateEvent
 );

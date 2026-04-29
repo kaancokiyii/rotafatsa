@@ -27,41 +27,56 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-// Multer upload configuration
-const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 10 * 1024 * 1024, // 10MB max file size
-    },
-    fileFilter: fileFilter,
-});
+// Dynamic upload wrapper
+const uploadDynamic = (field, maxCount) => {
+    return async (req, res, next) => {
+        try {
+            let maxSizeMB = 200; // default 200MB
+            
+            try {
+                // Try to get dynamic settings if Settings model is implemented
+                const SettingsModel = require('../models/Settings');
+                const settings = await SettingsModel.findOne();
+                if (settings && settings.maxUploadSizeMB) {
+                    maxSizeMB = settings.maxUploadSizeMB;
+                }
+            } catch (err) {
+                // Ignore if Settings model not yet created or DB error
+            }
 
-// For future cloud storage (Cloudinary/AWS S3) implementation:
-/*
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+            const upload = multer({
+                storage: storage,
+                limits: { fileSize: maxSizeMB * 1024 * 1024 },
+                fileFilter: fileFilter,
+            });
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+            let multerMiddleware;
+            if (maxCount === 1) {
+                multerMiddleware = upload.single(field);
+            } else if (maxCount > 1) {
+                multerMiddleware = upload.array(field, maxCount);
+            } else {
+                multerMiddleware = upload.any();
+            }
 
-const cloudStorage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'rota-fatsa',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-    transformation: [{ width: 1200, height: 800, crop: 'limit' }],
-  },
-});
+            multerMiddleware(req, res, function (err) {
+                if (err instanceof multer.MulterError) {
+                    if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+                        return res.status(400).json({ success: false, message: 'Beklenmeyen dosya alanı veya çok fazla dosya yüklediniz.' });
+                    }
+                    if (err.code === 'LIMIT_FILE_SIZE') {
+                        return res.status(400).json({ success: false, message: `Dosya boyutu çok büyük. Maksimum limit: ${maxSizeMB}MB` });
+                    }
+                    return res.status(400).json({ success: false, message: err.message });
+                } else if (err) {
+                    return res.status(400).json({ success: false, message: err.message });
+                }
+                next();
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+};
 
-const uploadCloud = multer({
-  storage: cloudStorage,
-  limits: {
-    fileSize: 10 * 1024 * 1024,
-  },
-});
-*/
-
-module.exports = upload;
+module.exports = uploadDynamic;

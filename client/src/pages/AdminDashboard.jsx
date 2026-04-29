@@ -28,6 +28,8 @@ function AdminDashboard() {
     const [unreadCount, setUnreadCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+    const [settings, setSettings] = useState({ maxUploadSizeMB: 200, maxImageCount: 50 });
+    const [savingSettings, setSavingSettings] = useState(false);
 
     // Modals
     const [showPlaceModal, setShowPlaceModal] = useState(false);
@@ -58,14 +60,18 @@ function AdminDashboard() {
 
     const fetchData = async () => {
         try {
-            const [placesRes, eventsRes, messagesRes] = await Promise.all([
+            const [placesRes, eventsRes, messagesRes, settingsRes] = await Promise.all([
                 api.get('/places?limit=100'),
                 api.get('/events?upcoming=false'),
                 api.get('/contact').catch(() => ({ data: { data: [], unreadCount: 0 } })),
+                api.get('/settings').catch(() => ({ data: { data: { maxUploadSizeMB: 200, maxImageCount: 50 } } })),
             ]);
             setPlaces(placesRes.data.data);
             setEvents(eventsRes.data.data);
             setMessages(messagesRes.data.data || []);
+            if (settingsRes.data && settingsRes.data.data) {
+                setSettings(settingsRes.data.data);
+            }
             setUnreadCount(messagesRes.data.unreadCount || 0);
             setLoading(false);
         } catch (error) {
@@ -132,6 +138,20 @@ function AdminDashboard() {
         }
     };
 
+    const handleSaveSettings = async (e) => {
+        e.preventDefault();
+        setSavingSettings(true);
+        try {
+            const res = await api.put('/settings', settings);
+            setSettings(res.data.data);
+            toast.success('Ayarlar başarıyla kaydedildi!');
+        } catch (error) {
+            toast.error('Ayarlar kaydedilirken hata oluştu!');
+        } finally {
+            setSavingSettings(false);
+        }
+    };
+
     // Filters
     const filteredPlaces = places.filter(p => {
         const matchSearch = p.title.tr.toLowerCase().includes(placeSearch.toLowerCase()) ||
@@ -158,6 +178,7 @@ function AdminDashboard() {
         { key: 'hotels', icon: 'hotel', label: 'Oteller' },
         { key: 'events', icon: 'event', label: 'Etkinlikler' },
         { key: 'messages', icon: 'mail', label: 'Mesajlar', badge: unreadCount },
+        { key: 'settings', icon: 'settings', label: 'Ayarlar' },
     ];
 
     if (loading) {
@@ -227,6 +248,7 @@ function AdminDashboard() {
                             {activeTab === 'hotels' && `Oteller (${places.filter(p => p.category === 'hotel').length})`}
                             {activeTab === 'events' && `Etkinlikler (${filteredEvents.length})`}
                             {activeTab === 'messages' && `Mesajlar (${messages.length})`}
+                            {activeTab === 'settings' && 'Sistem Ayarları'}
                         </h1>
                         <p>Hoş geldin, {user?.username}!</p>
                     </div>
@@ -591,6 +613,45 @@ function AdminDashboard() {
                                     </div>
                                 )}
                             </div>
+                        </div>
+                    )}
+                    {/* ── Settings Tab ── */}
+                    {activeTab === 'settings' && (
+                        <div className="adm-panel" style={{ maxWidth: '600px', margin: '0 auto' }}>
+                            <div className="adm-panel__header">
+                                <h3>Yükleme Limitleri</h3>
+                            </div>
+                            <form onSubmit={handleSaveSettings} style={{ padding: '1.5rem' }}>
+                                <div className="adm-form-group" style={{ marginBottom: '1.5rem' }}>
+                                    <label>Maksimum Dosya Boyutu (MB) <span className="req">*</span></label>
+                                    <input 
+                                        type="number" 
+                                        className="adm-form-input" 
+                                        value={settings.maxUploadSizeMB} 
+                                        onChange={(e) => setSettings({...settings, maxUploadSizeMB: Number(e.target.value)})} 
+                                        min="1" 
+                                        max="1024"
+                                    />
+                                    <p className="adm-form-hint" style={{ marginTop: '5px' }}>Sunucuya yüklenebilecek tek bir dosyanın veya fotoğrafın maksimum boyutudur (Örn: 200).</p>
+                                </div>
+                                <div className="adm-form-group" style={{ marginBottom: '1.5rem' }}>
+                                    <label>Aynı Anda Maksimum Dosya Sayısı <span className="req">*</span></label>
+                                    <input 
+                                        type="number" 
+                                        className="adm-form-input" 
+                                        value={settings.maxImageCount} 
+                                        onChange={(e) => setSettings({...settings, maxImageCount: Number(e.target.value)})} 
+                                        min="1" 
+                                        max="100"
+                                    />
+                                    <p className="adm-form-hint" style={{ marginTop: '5px' }}>Tek seferde seçilip yüklenebilecek maksimum fotoğraf sayısıdır (Örn: 50).</p>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
+                                    <button type="submit" className="adm-btn adm-btn--primary" disabled={savingSettings}>
+                                        {savingSettings ? 'Kaydediliyor...' : 'Ayarları Kaydet'}
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     )}
                 </div>

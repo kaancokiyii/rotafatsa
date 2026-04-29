@@ -20,7 +20,7 @@ router.get('/:id', getPlaceById);
 router.post(
     '/',
     protect,
-    upload.array('images', 5), // Allow up to 5 images
+    upload('images', 50), // Allow up to 50 images
     validate(placeSchema),
     createPlace
 );
@@ -28,7 +28,7 @@ router.post(
 router.put(
     '/:id',
     protect,
-    upload.array('images', 5),
+    upload('images', 50),
     validate(placeSchema),
     updatePlace
 );

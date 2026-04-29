@@ -454,6 +454,87 @@ select.adm-form-input {
     font-size: 16px;
 }
 
+/* Drag & Drop Reorder */
+.adm-img-preview {
+    cursor: grab;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+.adm-img-preview:active {
+    cursor: grabbing;
+}
+
+.adm-img-preview--dragging {
+    opacity: 0.35;
+    transform: scale(0.95);
+}
+
+.adm-img-preview--dragover {
+    border: 2px solid #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    transform: scale(1.02);
+}
+
+.adm-img-preview--cover {
+    border: 2px solid #10b981;
+}
+
+.adm-img-drag-handle {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.adm-img-preview:hover .adm-img-drag-handle {
+    opacity: 1;
+}
+
+.adm-img-drag-handle .material-symbols-outlined {
+    font-size: 16px;
+    color: #fff;
+}
+
+.adm-img-cover-badge {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    background: #10b981;
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.adm-img-order {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* Single image preview */
 .adm-img-single {
     position: relative;

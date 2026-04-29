@@ -17,6 +17,8 @@ function PlaceDetails() {
     const [loading, setLoading] = useState(true);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [relatedPlaces, setRelatedPlaces] = useState([]);
+    const [showLightbox, setShowLightbox] = useState(false);
+    const [lightboxIndex, setLightboxIndex] = useState(0);
 
     useEffect(() => {
         fetchPlaceDetails();
@@ -57,6 +59,41 @@ function PlaceDetails() {
         };
         return icons[category] || 'place';
     };
+
+    const openLightbox = (index) => {
+        setLightboxIndex(index);
+        setShowLightbox(true);
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeLightbox = () => {
+        setShowLightbox(false);
+        document.body.style.overflow = '';
+    };
+
+    const lightboxNext = () => {
+        if (place?.images?.length > 0) {
+            setLightboxIndex((prev) => (prev + 1) % place.images.length);
+        }
+    };
+
+    const lightboxPrev = () => {
+        if (place?.images?.length > 0) {
+            setLightboxIndex((prev) => (prev - 1 + place.images.length) % place.images.length);
+        }
+    };
+
+    // Keyboard navigation for lightbox
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (!showLightbox) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') lightboxNext();
+            if (e.key === 'ArrowLeft') lightboxPrev();
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [showLightbox, place]);
 
     if (loading) {
         return (
@@ -162,6 +199,31 @@ function PlaceDetails() {
                             <p className="description-text">{place.description[language]}</p>
                         </div>
 
+                        {/* Photo Gallery */}
+                        {place.images && place.images.length > 0 && (
+                            <div className="details-section">
+                                <div className="gallery-header">
+                                    <h2>{language === 'tr' ? 'Fotoğraf Galerisi' : 'Photo Gallery'}</h2>
+                                    <span className="gallery-count">{place.images.length} {language === 'tr' ? 'fotoğraf' : 'photos'}</span>
+                                </div>
+                                <div className={`gallery-grid ${place.images.length === 1 ? 'gallery-grid--single' : place.images.length === 2 ? 'gallery-grid--double' : ''}`}>
+                                    {place.images.map((img, idx) => (
+                                        <div
+                                            key={idx}
+                                            className={`gallery-item ${idx === 0 && place.images.length >= 3 ? 'gallery-item--featured' : ''}`}
+                                            onClick={() => openLightbox(idx)}
+                                        >
+                                            <img src={resolveImg(img)} alt={`${place.title[language]} - ${idx + 1}`} loading="lazy" />
+                                            <div className="gallery-item__overlay">
+                                                <span className="material-symbols-outlined">zoom_in</span>
+                                            </div>
+                                            <span className="gallery-item__number">{idx + 1}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
 
 
                         {/* Map */}
@@ -266,6 +328,46 @@ function PlaceDetails() {
                     </section>
                 )}
             </div>
+
+            {/* Lightbox Modal */}
+            {showLightbox && place?.images?.length > 0 && (
+                <div className="lightbox" onClick={closeLightbox}>
+                    <button className="lightbox__close" onClick={closeLightbox}>
+                        <span className="material-symbols-outlined">close</span>
+                    </button>
+                    <div className="lightbox__counter">
+                        {lightboxIndex + 1} / {place.images.length}
+                    </div>
+                    <div className="lightbox__content" onClick={(e) => e.stopPropagation()}>
+                        {place.images.length > 1 && (
+                            <button className="lightbox__nav lightbox__nav--prev" onClick={lightboxPrev}>
+                                <span className="material-symbols-outlined">chevron_left</span>
+                            </button>
+                        )}
+                        <img
+                            src={resolveImg(place.images[lightboxIndex])}
+                            alt={`${place.title[language]} - ${lightboxIndex + 1}`}
+                            className="lightbox__image"
+                        />
+                        {place.images.length > 1 && (
+                            <button className="lightbox__nav lightbox__nav--next" onClick={lightboxNext}>
+                                <span className="material-symbols-outlined">chevron_right</span>
+                            </button>
+                        )}
+                    </div>
+                    <div className="lightbox__thumbs">
+                        {place.images.map((img, idx) => (
+                            <button
+                                key={idx}
+                                className={`lightbox__thumb ${idx === lightboxIndex ? 'active' : ''}`}
+                                onClick={(e) => { e.stopPropagation(); setLightboxIndex(idx); }}
+                            >
+                                <img src={resolveImg(img)} alt="" />
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             <Footer />
         </div>

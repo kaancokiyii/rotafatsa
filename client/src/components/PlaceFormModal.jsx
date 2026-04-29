@@ -27,6 +27,8 @@ function PlaceFormModal({ show, onClose, place, onSuccess }) {
     const [imageFiles, setImageFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
+    const [dragIndex, setDragIndex] = useState(null);
+    const [dragOverIndex, setDragOverIndex] = useState(null);
 
     const mapRef = useRef(null);
     const mapInstanceRef = useRef(null);
@@ -208,6 +210,53 @@ function PlaceFormModal({ show, onClose, place, onSuccess }) {
         }
     };
 
+    // Drag & Drop reorder handlers
+    const handleDragStart = (index) => {
+        setDragIndex(index);
+    };
+
+    const handleDragEnter = (index) => {
+        if (dragIndex === null || dragIndex === index) return;
+        setDragOverIndex(index);
+    };
+
+    const handleDragEnd = () => {
+        if (dragIndex === null || dragOverIndex === null || dragIndex === dragOverIndex) {
+            setDragIndex(null);
+            setDragOverIndex(null);
+            return;
+        }
+
+        const existingCount = formData.images.length;
+
+        // Reorder previews
+        const newPreviews = [...imagePreviews];
+        const [movedPreview] = newPreviews.splice(dragIndex, 1);
+        newPreviews.splice(dragOverIndex, 0, movedPreview);
+        setImagePreviews(newPreviews);
+
+        // Reorder existing images in formData
+        const newExistingImages = [...formData.images];
+        const newImageFiles = [...imageFiles];
+
+        // Build a combined list, reorder, then split back
+        const combined = [
+            ...newExistingImages.map(img => ({ type: 'existing', value: img })),
+            ...newImageFiles.map(file => ({ type: 'file', value: file })),
+        ];
+        const [movedItem] = combined.splice(dragIndex, 1);
+        combined.splice(dragOverIndex, 0, movedItem);
+
+        const reorderedExisting = combined.filter(c => c.type === 'existing').map(c => c.value);
+        const reorderedFiles = combined.filter(c => c.type === 'file').map(c => c.value);
+
+        setFormData(prev => ({ ...prev, images: reorderedExisting }));
+        setImageFiles(reorderedFiles);
+
+        setDragIndex(null);
+        setDragOverIndex(null);
+    };
+
     const validateForm = () => {
         if (!formData.title.tr.trim() || !formData.title.en.trim()) {
             toast.error('Türkçe ve İngilizce başlık gerekli!');
@@ -372,16 +421,35 @@ function PlaceFormModal({ show, onClose, place, onSuccess }) {
                             </label>
                         </div>
                         {imagePreviews.length > 0 && (
-                            <div className="adm-img-previews">
-                                {imagePreviews.map((preview, i) => (
-                                    <div key={i} className="adm-img-preview">
-                                        <img src={resolveImg(preview)} alt="" />
-                                        <button type="button" className="adm-img-remove" onClick={() => removeImage(i)}>
-                                            <span className="material-symbols-outlined">close</span>
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
+                            <>
+                                <p className="adm-form-hint" style={{ marginTop: '0', marginBottom: '4px' }}>
+                                    <span className="material-symbols-outlined" style={{ fontSize: '14px', verticalAlign: 'middle' }}>drag_indicator</span>
+                                    Sıralamayı değiştirmek için görselleri sürükleyip bırakın. İlk görsel kapak fotoğrafı olur.
+                                </p>
+                                <div className="adm-img-previews">
+                                    {imagePreviews.map((preview, i) => (
+                                        <div
+                                            key={i}
+                                            className={`adm-img-preview ${dragIndex === i ? 'adm-img-preview--dragging' : ''} ${dragOverIndex === i ? 'adm-img-preview--dragover' : ''} ${i === 0 ? 'adm-img-preview--cover' : ''}`}
+                                            draggable
+                                            onDragStart={() => handleDragStart(i)}
+                                            onDragEnter={() => handleDragEnter(i)}
+                                            onDragOver={(e) => e.preventDefault()}
+                                            onDragEnd={handleDragEnd}
+                                        >
+                                            <img src={resolveImg(preview)} alt="" />
+                                            <div className="adm-img-drag-handle">
+                                                <span className="material-symbols-outlined">drag_indicator</span>
+                                            </div>
+                                            {i === 0 && <span className="adm-img-cover-badge">Kapak</span>}
+                                            <span className="adm-img-order">{i + 1}</span>
+                                            <button type="button" className="adm-img-remove" onClick={() => removeImage(i)}>
+                                                <span className="material-symbols-outlined">close</span>
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
                         )}
                     </div>
 

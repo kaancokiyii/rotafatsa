@@ -8,13 +8,7 @@ import PlaceFormModal from '../components/PlaceFormModal';
 import EventFormModal from '../components/EventFormModal';
 import './AdminDashboard.css';
 
-// Resolve image URLs (supports /uploads/ paths and full URLs)
-const resolveImg = (src) => {
-    if (!src) return 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=200';
-    if (src.startsWith('http')) return src;
-    if (src.startsWith('/uploads/')) return `http://localhost:5000${src}`;
-    return src;
-};
+import { resolveImg } from '../utils/imageUtils';
 
 function AdminDashboard() {
     const navigate = useNavigate();
@@ -28,8 +22,34 @@ function AdminDashboard() {
     const [unreadCount, setUnreadCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-    const [settings, setSettings] = useState({ maxUploadSizeMB: 200, maxImageCount: 50 });
+    const [settings, setSettings] = useState({
+        siteName: 'Rota Fatsa',
+        siteDescription: 'Fatsa Turizm & Gezi Rehberi',
+        siteUrl: 'http://localhost:5173',
+        apiUrl: 'http://localhost:5000',
+        domain: '',
+        serverIp: '',
+        sslEnabled: false,
+        contactEmail: '',
+        contactPhone: '',
+        contactAddress: 'Fatsa, Ordu',
+        socialMedia: { facebook: '', instagram: '', twitter: '', youtube: '', tiktok: '' },
+        maxUploadSizeMB: 200,
+        maxImageCount: 50,
+        seoTitle: '',
+        seoDescription: '',
+        seoKeywords: '',
+        googleAnalyticsId: '',
+        maintenanceMode: false,
+        maintenanceMessage: 'Site şu anda bakım modundadır. Lütfen daha sonra tekrar deneyin.',
+        mapDefaultLat: 41.0442,
+        mapDefaultLng: 37.4975,
+        mapDefaultZoom: 13,
+        chatbotEnabled: true,
+        chatbotWelcomeMessage: 'Merhaba! Fatsa hakkında size nasıl yardımcı olabilirim?',
+    });
     const [savingSettings, setSavingSettings] = useState(false);
+    const [settingsSection, setSettingsSection] = useState('general');
 
     // Modals
     const [showPlaceModal, setShowPlaceModal] = useState(false);
@@ -617,41 +637,364 @@ function AdminDashboard() {
                     )}
                     {/* ── Settings Tab ── */}
                     {activeTab === 'settings' && (
-                        <div className="adm-panel" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                            <div className="adm-panel__header">
-                                <h3>Yükleme Limitleri</h3>
-                            </div>
-                            <form onSubmit={handleSaveSettings} style={{ padding: '1.5rem' }}>
-                                <div className="adm-form-group" style={{ marginBottom: '1.5rem' }}>
-                                    <label>Maksimum Dosya Boyutu (MB) <span className="req">*</span></label>
-                                    <input 
-                                        type="number" 
-                                        className="adm-form-input" 
-                                        value={settings.maxUploadSizeMB} 
-                                        onChange={(e) => setSettings({...settings, maxUploadSizeMB: Number(e.target.value)})} 
-                                        min="1" 
-                                        max="1024"
-                                    />
-                                    <p className="adm-form-hint" style={{ marginTop: '5px' }}>Sunucuya yüklenebilecek tek bir dosyanın veya fotoğrafın maksimum boyutudur (Örn: 200).</p>
-                                </div>
-                                <div className="adm-form-group" style={{ marginBottom: '1.5rem' }}>
-                                    <label>Aynı Anda Maksimum Dosya Sayısı <span className="req">*</span></label>
-                                    <input 
-                                        type="number" 
-                                        className="adm-form-input" 
-                                        value={settings.maxImageCount} 
-                                        onChange={(e) => setSettings({...settings, maxImageCount: Number(e.target.value)})} 
-                                        min="1" 
-                                        max="100"
-                                    />
-                                    <p className="adm-form-hint" style={{ marginTop: '5px' }}>Tek seferde seçilip yüklenebilecek maksimum fotoğraf sayısıdır (Örn: 50).</p>
-                                </div>
-                                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
-                                    <button type="submit" className="adm-btn adm-btn--primary" disabled={savingSettings}>
-                                        {savingSettings ? 'Kaydediliyor...' : 'Ayarları Kaydet'}
+                        <div className="adm-settings-layout">
+                            {/* Settings Sidebar Navigation */}
+                            <div className="adm-settings-nav">
+                                {[
+                                    { key: 'general', icon: 'language', label: 'Genel Ayarlar' },
+                                    { key: 'domain', icon: 'dns', label: 'Domain & IP' },
+                                    { key: 'contact', icon: 'contact_mail', label: 'İletişim Bilgileri' },
+                                    { key: 'social', icon: 'share', label: 'Sosyal Medya' },
+                                    { key: 'upload', icon: 'cloud_upload', label: 'Yükleme Limitleri' },
+                                    { key: 'seo', icon: 'search', label: 'SEO Ayarları' },
+                                    { key: 'maintenance', icon: 'engineering', label: 'Bakım Modu' },
+                                    { key: 'map', icon: 'map', label: 'Harita Ayarları' },
+                                    { key: 'chatbot', icon: 'smart_toy', label: 'Chatbot Ayarları' },
+                                ].map(sec => (
+                                    <button
+                                        key={sec.key}
+                                        className={`adm-settings-nav__item ${settingsSection === sec.key ? 'active' : ''}`}
+                                        onClick={() => setSettingsSection(sec.key)}
+                                    >
+                                        <span className="material-symbols-outlined">{sec.icon}</span>
+                                        <span>{sec.label}</span>
                                     </button>
-                                </div>
-                            </form>
+                                ))}
+                            </div>
+
+                            {/* Settings Content */}
+                            <div className="adm-settings-content">
+                                <form onSubmit={handleSaveSettings}>
+                                    {/* ── Genel Ayarlar ── */}
+                                    {settingsSection === 'general' && (
+                                        <div className="adm-settings-section">
+                                            <div className="adm-settings-section__header">
+                                                <span className="material-symbols-outlined">language</span>
+                                                <div>
+                                                    <h3>Genel Ayarlar</h3>
+                                                    <p>Site adı, açıklama ve temel URL yapılandırması</p>
+                                                </div>
+                                            </div>
+                                            <div className="adm-settings-fields">
+                                                <div className="adm-field">
+                                                    <label>Site Adı</label>
+                                                    <input type="text" className="adm-field__input" value={settings.siteName} onChange={(e) => setSettings({...settings, siteName: e.target.value})} placeholder="Rota Fatsa" />
+                                                    <span className="adm-field__hint">Sitenizin başlık çubuğunda ve logoda görünecek isim</span>
+                                                </div>
+                                                <div className="adm-field">
+                                                    <label>Site Açıklaması</label>
+                                                    <textarea className="adm-field__textarea" value={settings.siteDescription} onChange={(e) => setSettings({...settings, siteDescription: e.target.value})} placeholder="Fatsa Turizm & Gezi Rehberi" rows={3} />
+                                                    <span className="adm-field__hint">Ana sayfada ve meta açıklamasında kullanılır</span>
+                                                </div>
+                                                <div className="adm-field-row">
+                                                    <div className="adm-field">
+                                                        <label>Site URL (Frontend)</label>
+                                                        <input type="text" className="adm-field__input" value={settings.siteUrl} onChange={(e) => setSettings({...settings, siteUrl: e.target.value})} placeholder="https://rotafatsa.com" />
+                                                        <span className="adm-field__hint">Ön yüz (client) erişim adresi</span>
+                                                    </div>
+                                                    <div className="adm-field">
+                                                        <label>API URL (Backend)</label>
+                                                        <input type="text" className="adm-field__input" value={settings.apiUrl} onChange={(e) => setSettings({...settings, apiUrl: e.target.value})} placeholder="https://api.rotafatsa.com" />
+                                                        <span className="adm-field__hint">Backend API erişim adresi</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* ── Domain & IP ── */}
+                                    {settingsSection === 'domain' && (
+                                        <div className="adm-settings-section">
+                                            <div className="adm-settings-section__header">
+                                                <span className="material-symbols-outlined">dns</span>
+                                                <div>
+                                                    <h3>Domain & IP Yapılandırması</h3>
+                                                    <p>Sunucu IP adresi, domain adı ve SSL ayarları</p>
+                                                </div>
+                                            </div>
+                                            <div className="adm-settings-fields">
+                                                <div className="adm-field">
+                                                    <label>Domain Adı</label>
+                                                    <input type="text" className="adm-field__input" value={settings.domain} onChange={(e) => setSettings({...settings, domain: e.target.value})} placeholder="rotafatsa.com" />
+                                                    <span className="adm-field__hint">Sitenizin bağlı olduğu alan adı (örn: rotafatsa.com)</span>
+                                                </div>
+                                                <div className="adm-field">
+                                                    <label>Sunucu IP Adresi</label>
+                                                    <input type="text" className="adm-field__input" value={settings.serverIp} onChange={(e) => setSettings({...settings, serverIp: e.target.value})} placeholder="123.456.789.0" />
+                                                    <span className="adm-field__hint">Sunucunun statik IP adresi</span>
+                                                </div>
+                                                <div className="adm-field adm-field--toggle">
+                                                    <div className="adm-toggle-row">
+                                                        <div>
+                                                            <label>SSL Sertifikası (HTTPS)</label>
+                                                            <span className="adm-field__hint">SSL aktif olduğunda site HTTPS üzerinden çalışır</span>
+                                                        </div>
+                                                        <button type="button" className={`adm-toggle ${settings.sslEnabled ? 'active' : ''}`} onClick={() => setSettings({...settings, sslEnabled: !settings.sslEnabled})}>
+                                                            <span className="adm-toggle__dot"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                {settings.domain && settings.serverIp && (
+                                                    <div className="adm-settings-info-card">
+                                                        <span className="material-symbols-outlined">info</span>
+                                                        <div>
+                                                            <strong>Mevcut Yapılandırma:</strong>
+                                                            <p>{settings.sslEnabled ? 'https' : 'http'}://{settings.domain} → {settings.serverIp}</p>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* ── İletişim Bilgileri ── */}
+                                    {settingsSection === 'contact' && (
+                                        <div className="adm-settings-section">
+                                            <div className="adm-settings-section__header">
+                                                <span className="material-symbols-outlined">contact_mail</span>
+                                                <div>
+                                                    <h3>İletişim Bilgileri</h3>
+                                                    <p>Footer ve iletişim sayfasında gösterilen bilgiler</p>
+                                                </div>
+                                            </div>
+                                            <div className="adm-settings-fields">
+                                                <div className="adm-field">
+                                                    <label>E-posta Adresi</label>
+                                                    <input type="email" className="adm-field__input" value={settings.contactEmail} onChange={(e) => setSettings({...settings, contactEmail: e.target.value})} placeholder="info@rotafatsa.com" />
+                                                </div>
+                                                <div className="adm-field">
+                                                    <label>Telefon Numarası</label>
+                                                    <input type="tel" className="adm-field__input" value={settings.contactPhone} onChange={(e) => setSettings({...settings, contactPhone: e.target.value})} placeholder="+90 452 XXX XX XX" />
+                                                </div>
+                                                <div className="adm-field">
+                                                    <label>Adres</label>
+                                                    <textarea className="adm-field__textarea" value={settings.contactAddress} onChange={(e) => setSettings({...settings, contactAddress: e.target.value})} placeholder="Fatsa, Ordu" rows={2} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* ── Sosyal Medya ── */}
+                                    {settingsSection === 'social' && (
+                                        <div className="adm-settings-section">
+                                            <div className="adm-settings-section__header">
+                                                <span className="material-symbols-outlined">share</span>
+                                                <div>
+                                                    <h3>Sosyal Medya Hesapları</h3>
+                                                    <p>Footer ve paylaşım linklerinde kullanılan profil URL'leri</p>
+                                                </div>
+                                            </div>
+                                            <div className="adm-settings-fields">
+                                                {[
+                                                    { key: 'facebook', label: 'Facebook', icon: '🔵', placeholder: 'https://facebook.com/rotafatsa' },
+                                                    { key: 'instagram', label: 'Instagram', icon: '🟣', placeholder: 'https://instagram.com/rotafatsa' },
+                                                    { key: 'twitter', label: 'X (Twitter)', icon: '⚫', placeholder: 'https://x.com/rotafatsa' },
+                                                    { key: 'youtube', label: 'YouTube', icon: '🔴', placeholder: 'https://youtube.com/@rotafatsa' },
+                                                    { key: 'tiktok', label: 'TikTok', icon: '⬛', placeholder: 'https://tiktok.com/@rotafatsa' },
+                                                ].map(social => (
+                                                    <div key={social.key} className="adm-field adm-field--social">
+                                                        <label>
+                                                            <span className="adm-field__social-icon">{social.icon}</span>
+                                                            {social.label}
+                                                        </label>
+                                                        <input
+                                                            type="url"
+                                                            className="adm-field__input"
+                                                            value={settings.socialMedia?.[social.key] || ''}
+                                                            onChange={(e) => setSettings({
+                                                                ...settings,
+                                                                socialMedia: { ...settings.socialMedia, [social.key]: e.target.value }
+                                                            })}
+                                                            placeholder={social.placeholder}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* ── Yükleme Limitleri ── */}
+                                    {settingsSection === 'upload' && (
+                                        <div className="adm-settings-section">
+                                            <div className="adm-settings-section__header">
+                                                <span className="material-symbols-outlined">cloud_upload</span>
+                                                <div>
+                                                    <h3>Yükleme Limitleri</h3>
+                                                    <p>Dosya ve fotoğraf yükleme kısıtlamaları</p>
+                                                </div>
+                                            </div>
+                                            <div className="adm-settings-fields">
+                                                <div className="adm-field-row">
+                                                    <div className="adm-field">
+                                                        <label>Maksimum Dosya Boyutu (MB)</label>
+                                                        <input type="number" className="adm-field__input" value={settings.maxUploadSizeMB} onChange={(e) => setSettings({...settings, maxUploadSizeMB: Number(e.target.value)})} min="1" max="1024" />
+                                                        <span className="adm-field__hint">Tek dosya başına maks. boyut (Örn: 200)</span>
+                                                    </div>
+                                                    <div className="adm-field">
+                                                        <label>Aynı Anda Maks. Dosya Sayısı</label>
+                                                        <input type="number" className="adm-field__input" value={settings.maxImageCount} onChange={(e) => setSettings({...settings, maxImageCount: Number(e.target.value)})} min="1" max="100" />
+                                                        <span className="adm-field__hint">Tek seferde seçilebilecek maks. fotoğraf (Örn: 50)</span>
+                                                    </div>
+                                                </div>
+                                                <div className="adm-settings-info-card">
+                                                    <span className="material-symbols-outlined">info</span>
+                                                    <div>
+                                                        <strong>Mevcut Ayarlar:</strong>
+                                                        <p>Tek dosya boyutu: {settings.maxUploadSizeMB} MB • Toplu yükleme: {settings.maxImageCount} dosya</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* ── SEO Ayarları ── */}
+                                    {settingsSection === 'seo' && (
+                                        <div className="adm-settings-section">
+                                            <div className="adm-settings-section__header">
+                                                <span className="material-symbols-outlined">search</span>
+                                                <div>
+                                                    <h3>SEO Ayarları</h3>
+                                                    <p>Arama motoru optimizasyonu ve analitik</p>
+                                                </div>
+                                            </div>
+                                            <div className="adm-settings-fields">
+                                                <div className="adm-field">
+                                                    <label>SEO Başlık (Title Tag)</label>
+                                                    <input type="text" className="adm-field__input" value={settings.seoTitle} onChange={(e) => setSettings({...settings, seoTitle: e.target.value})} placeholder="Rota Fatsa - Fatsa Gezi Rehberi" />
+                                                    <span className="adm-field__hint">Arama sonuçlarında görünen sayfa başlığı (60 karakter ideal)</span>
+                                                </div>
+                                                <div className="adm-field">
+                                                    <label>SEO Açıklama (Meta Description)</label>
+                                                    <textarea className="adm-field__textarea" value={settings.seoDescription} onChange={(e) => setSettings({...settings, seoDescription: e.target.value})} placeholder="Fatsa'nın en güzel yerlerini keşfedin..." rows={3} />
+                                                    <span className="adm-field__hint">Arama sonuçlarında görünen kısa açıklama (155 karakter ideal)</span>
+                                                </div>
+                                                <div className="adm-field">
+                                                    <label>Anahtar Kelimeler</label>
+                                                    <input type="text" className="adm-field__input" value={settings.seoKeywords} onChange={(e) => setSettings({...settings, seoKeywords: e.target.value})} placeholder="fatsa, turizm, gezi, ordu, karadeniz" />
+                                                    <span className="adm-field__hint">Virgülle ayrılmış anahtar kelimeler</span>
+                                                </div>
+                                                <div className="adm-field">
+                                                    <label>Google Analytics ID</label>
+                                                    <input type="text" className="adm-field__input" value={settings.googleAnalyticsId} onChange={(e) => setSettings({...settings, googleAnalyticsId: e.target.value})} placeholder="G-XXXXXXXXXX" />
+                                                    <span className="adm-field__hint">Google Analytics ölçüm kimliği (G- ile başlayan)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* ── Bakım Modu ── */}
+                                    {settingsSection === 'maintenance' && (
+                                        <div className="adm-settings-section">
+                                            <div className="adm-settings-section__header">
+                                                <span className="material-symbols-outlined">engineering</span>
+                                                <div>
+                                                    <h3>Bakım Modu</h3>
+                                                    <p>Siteyi geçici olarak bakım moduna alma</p>
+                                                </div>
+                                            </div>
+                                            <div className="adm-settings-fields">
+                                                <div className="adm-field adm-field--toggle">
+                                                    <div className="adm-toggle-row">
+                                                        <div>
+                                                            <label>Bakım Modunu Etkinleştir</label>
+                                                            <span className="adm-field__hint">Aktif olduğunda ziyaretçiler bakım sayfasını görür</span>
+                                                        </div>
+                                                        <button type="button" className={`adm-toggle ${settings.maintenanceMode ? 'active' : ''}`} onClick={() => setSettings({...settings, maintenanceMode: !settings.maintenanceMode})}>
+                                                            <span className="adm-toggle__dot"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                {settings.maintenanceMode && (
+                                                    <div className="adm-settings-warning-card">
+                                                        <span className="material-symbols-outlined">warning</span>
+                                                        <span>Bakım modu aktif! Ziyaretçiler siteye erişemez.</span>
+                                                    </div>
+                                                )}
+                                                <div className="adm-field">
+                                                    <label>Bakım Mesajı</label>
+                                                    <textarea className="adm-field__textarea" value={settings.maintenanceMessage} onChange={(e) => setSettings({...settings, maintenanceMessage: e.target.value})} rows={3} />
+                                                    <span className="adm-field__hint">Ziyaretçilere gösterilecek bakım mesajı</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* ── Harita Ayarları ── */}
+                                    {settingsSection === 'map' && (
+                                        <div className="adm-settings-section">
+                                            <div className="adm-settings-section__header">
+                                                <span className="material-symbols-outlined">map</span>
+                                                <div>
+                                                    <h3>Harita Ayarları</h3>
+                                                    <p>Varsayılan harita merkezi ve yakınlaştırma seviyesi</p>
+                                                </div>
+                                            </div>
+                                            <div className="adm-settings-fields">
+                                                <div className="adm-field-row adm-field-row--3">
+                                                    <div className="adm-field">
+                                                        <label>Enlem (Latitude)</label>
+                                                        <input type="number" step="0.0001" className="adm-field__input" value={settings.mapDefaultLat} onChange={(e) => setSettings({...settings, mapDefaultLat: Number(e.target.value)})} />
+                                                    </div>
+                                                    <div className="adm-field">
+                                                        <label>Boylam (Longitude)</label>
+                                                        <input type="number" step="0.0001" className="adm-field__input" value={settings.mapDefaultLng} onChange={(e) => setSettings({...settings, mapDefaultLng: Number(e.target.value)})} />
+                                                    </div>
+                                                    <div className="adm-field">
+                                                        <label>Yakınlaştırma (Zoom)</label>
+                                                        <input type="number" min="1" max="20" className="adm-field__input" value={settings.mapDefaultZoom} onChange={(e) => setSettings({...settings, mapDefaultZoom: Number(e.target.value)})} />
+                                                    </div>
+                                                </div>
+                                                <div className="adm-settings-info-card">
+                                                    <span className="material-symbols-outlined">my_location</span>
+                                                    <div>
+                                                        <strong>Varsayılan Konum:</strong>
+                                                        <p>Lat: {settings.mapDefaultLat} | Lng: {settings.mapDefaultLng} | Zoom: {settings.mapDefaultZoom}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* ── Chatbot Ayarları ── */}
+                                    {settingsSection === 'chatbot' && (
+                                        <div className="adm-settings-section">
+                                            <div className="adm-settings-section__header">
+                                                <span className="material-symbols-outlined">smart_toy</span>
+                                                <div>
+                                                    <h3>Chatbot Ayarları</h3>
+                                                    <p>Yapay zeka asistan yapılandırması</p>
+                                                </div>
+                                            </div>
+                                            <div className="adm-settings-fields">
+                                                <div className="adm-field adm-field--toggle">
+                                                    <div className="adm-toggle-row">
+                                                        <div>
+                                                            <label>Chatbot'u Etkinleştir</label>
+                                                            <span className="adm-field__hint">Devre dışı bırakıldığında chatbot ikonu görünmez</span>
+                                                        </div>
+                                                        <button type="button" className={`adm-toggle ${settings.chatbotEnabled ? 'active' : ''}`} onClick={() => setSettings({...settings, chatbotEnabled: !settings.chatbotEnabled})}>
+                                                            <span className="adm-toggle__dot"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div className="adm-field">
+                                                    <label>Karşılama Mesajı</label>
+                                                    <textarea className="adm-field__textarea" value={settings.chatbotWelcomeMessage} onChange={(e) => setSettings({...settings, chatbotWelcomeMessage: e.target.value})} rows={2} />
+                                                    <span className="adm-field__hint">Chatbot açıldığında gösterilen ilk mesaj</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Save Button */}
+                                    <div className="adm-settings-footer">
+                                        <button type="submit" className="adm-btn adm-btn--primary adm-btn--lg" disabled={savingSettings}>
+                                            <span className="material-symbols-outlined">{savingSettings ? 'hourglass_empty' : 'save'}</span>
+                                            {savingSettings ? 'Kaydediliyor...' : 'Ayarları Kaydet'}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     )}
                 </div>

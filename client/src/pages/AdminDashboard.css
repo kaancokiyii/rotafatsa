@@ -939,6 +939,317 @@
 }
 
 /* ═══════════════════════════════════════════════
+   Settings Layout
+   ═══════════════════════════════════════════════ */
+.adm-settings-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 1.5rem;
+    min-height: calc(100vh - 200px);
+}
+
+.adm-settings-nav {
+    background: var(--adm-white);
+    border-radius: var(--adm-radius);
+    box-shadow: var(--adm-shadow);
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.adm-settings-nav__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.65rem 0.9rem;
+    background: transparent;
+    border: none;
+    border-radius: var(--adm-radius-sm);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--adm-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.adm-settings-nav__item:hover {
+    background: var(--adm-bg);
+    color: var(--adm-text);
+}
+
+.adm-settings-nav__item.active {
+    background: #eff6ff;
+    color: var(--adm-blue);
+    font-weight: 600;
+}
+
+.adm-settings-nav__item .material-symbols-outlined {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.adm-settings-content {
+    min-width: 0;
+}
+
+.adm-settings-section {
+    background: var(--adm-white);
+    border-radius: var(--adm-radius);
+    box-shadow: var(--adm-shadow);
+    overflow: hidden;
+    animation: adm-settings-fadein 0.2s ease;
+}
+
+@keyframes adm-settings-fadein {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.adm-settings-section__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 1.75rem;
+    border-bottom: 1px solid var(--adm-border);
+    background: linear-gradient(135deg, #f8fafc, #fff);
+}
+
+.adm-settings-section__header > .material-symbols-outlined {
+    font-size: 28px;
+    color: var(--adm-blue);
+    background: #eff6ff;
+    padding: 10px;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.adm-settings-section__header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--adm-text);
+    margin: 0 0 2px;
+}
+
+.adm-settings-section__header p {
+    font-size: 0.8rem;
+    color: var(--adm-text-secondary);
+    margin: 0;
+}
+
+.adm-settings-fields {
+    padding: 1.5rem 1.75rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* ── Form Fields ── */
+.adm-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.adm-field > label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--adm-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.adm-field__input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--adm-border);
+    border-radius: var(--adm-radius-sm);
+    font-size: 0.875rem;
+    color: var(--adm-text);
+    background: var(--adm-white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.adm-field__input:focus {
+    border-color: var(--adm-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.adm-field__input::placeholder {
+    color: #94a3b8;
+}
+
+.adm-field__textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--adm-border);
+    border-radius: var(--adm-radius-sm);
+    font-size: 0.875rem;
+    color: var(--adm-text);
+    background: var(--adm-white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+    min-height: 70px;
+}
+
+.adm-field__textarea:focus {
+    border-color: var(--adm-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.adm-field__textarea::placeholder {
+    color: #94a3b8;
+}
+
+.adm-field__hint {
+    font-size: 0.72rem;
+    color: var(--adm-text-secondary);
+    line-height: 1.4;
+}
+
+.adm-field__social-icon {
+    font-size: 1rem;
+}
+
+/* ── Field Rows ── */
+.adm-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.adm-field-row--3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* ── Toggle Switch ── */
+.adm-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.adm-toggle-row > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.adm-toggle {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    border-radius: 14px;
+    border: none;
+    background: #cbd5e1;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.3s ease;
+}
+
+.adm-toggle.active {
+    background: var(--adm-blue);
+}
+
+.adm-toggle__dot {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.adm-toggle.active .adm-toggle__dot {
+    transform: translateX(24px);
+}
+
+/* ── Info & Warning Cards ── */
+.adm-settings-info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: var(--adm-radius-sm);
+    margin-top: 4px;
+}
+
+.adm-settings-info-card > .material-symbols-outlined {
+    color: var(--adm-blue);
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.adm-settings-info-card strong {
+    font-size: 0.8rem;
+    color: var(--adm-text);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.adm-settings-info-card p {
+    font-size: 0.78rem;
+    color: var(--adm-text-secondary);
+    margin: 0;
+    font-family: 'SF Mono', 'Consolas', monospace;
+}
+
+.adm-settings-warning-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: var(--adm-radius-sm);
+    color: #dc2626;
+    font-size: 0.82rem;
+    font-weight: 600;
+    animation: adm-warning-pulse 2s ease-in-out infinite;
+}
+
+@keyframes adm-warning-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+.adm-settings-warning-card > .material-symbols-outlined {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+/* ── Settings Footer ── */
+.adm-settings-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--adm-border);
+}
+
+.adm-btn--lg {
+    padding: 12px 32px;
+    font-size: 0.9rem;
+}
+
+/* ═══════════════════════════════════════════════
    Confirm Delete Modal
    ═══════════════════════════════════════════════ */
 .adm-modal-overlay {
@@ -1081,6 +1392,10 @@
         grid-template-columns: 1fr;
         height: auto;
     }
+
+    .adm-settings-layout {
+        grid-template-columns: 200px 1fr;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1116,5 +1431,39 @@
 
     .adm-grid-2 {
         grid-template-columns: 1fr;
+    }
+
+    .adm-settings-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .adm-settings-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        position: static;
+        gap: 2px;
+        padding: 0.5rem;
+    }
+
+    .adm-settings-nav__item {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .adm-settings-nav__item span:first-child {
+        font-size: 18px;
+    }
+
+    .adm-field-row,
+    .adm-field-row--3 {
+        grid-template-columns: 1fr;
+    }
+
+    .adm-settings-section__header {
+        padding: 1rem 1.25rem;
+    }
+
+    .adm-settings-fields {
+        padding: 1rem 1.25rem 1.5rem;
     }
 }

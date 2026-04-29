@@ -9,9 +9,13 @@ const validate = (schema) => {
             req.body = qs.parse(qs.stringify(req.body));
         }
 
-        const { error } = schema.validate(req.body, {
+        // Save file-related fields before validation (Joi may strip them)
+        const savedImages = req.body.images;
+        const savedImage = req.body.image;
+
+        const { error, value } = schema.validate(req.body, {
             abortEarly: false, // Return all errors
-            stripUnknown: true, // Remove unknown fields
+            stripUnknown: false, // Don't strip unknown fields (allow images etc.)
         });
 
         if (error) {
@@ -23,8 +27,14 @@ const validate = (schema) => {
             });
         }
 
+        // Use validated value but keep images intact
+        req.body = value;
+        if (savedImages !== undefined) req.body.images = savedImages;
+        if (savedImage !== undefined) req.body.image = savedImage;
+
         next();
     };
 };
 
 module.exports = validate;
+
